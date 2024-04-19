@@ -293,10 +293,10 @@ const EventProvider = ({ children }) => {
     }
   };
 
-  const registerRooomid = async (roomData, onSuccess, onError) => {
+  const registerRoomid = async (roomData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/schedule/register/",
+        "http://127.0.0.1:8000/api/roomId/register/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -328,7 +328,7 @@ const EventProvider = ({ children }) => {
     registerSpeaker,
     registerSponsor,
     registerSchedule,
-    registerRooomid,
+    registerRoomid,
     // getEvent,
     speakers,
     sponsors,

@@ -1,11 +1,14 @@
 import React, { useContext, useState } from "react";
 import { EventContext } from "./MyContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "./img/logo-5.png";
 import "./style.css";
+import Sharelink from "./Sharelink";
 
 function Sidebar() {
-  const [roomid, setRoomid] = useState();
+  const location = useLocation();
+
+  const isRoomPath = location.pathname.includes("room");
 
   const { logoutUser } = useContext(EventContext);
   const navigate = useNavigate();
@@ -16,6 +19,7 @@ function Sidebar() {
     logoutUser();
     navigate("/login");
   };
+
   return (
     <div className="bg-white p-2 sidebar">
       <div className="m-2">
@@ -63,21 +67,7 @@ function Sidebar() {
           <span>Logout</span>
         </a>
       </div>
-      <div className="form-group">
-        <form className="card p-3">
-          <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="share link"
-            value={roomid}
-            onChange={(e) => setRoomid(e.target.value)}
-            required
-          ></input>
-          <button type="submit" className="btn btn-primary">
-            Share Link
-          </button>
-        </form>
-      </div>
+      {isRoomPath && <Sharelink />}
     </div>
   );
 }

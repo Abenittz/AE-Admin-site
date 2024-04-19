@@ -12,6 +12,7 @@ const EventDetail = () => {
 
   const data = location.state;
   console.log(data);
+  const path = data.event.id;
 
   const showDeleteConfirmation = () => {
     setShowDeleteModal(true);
@@ -51,7 +52,9 @@ const EventDetail = () => {
           <p className="lead">{data.event.description}</p>
           <div className="row">
             <div className="col-md-6">
-              <button className="btn btn-danger mb-2 w-50">Go Live</button>
+              <Link to={`/room/${path}`} className="btn btn-danger mb-3">
+                Go Live
+              </Link>
               <ul className="list-group mb-4">
                 <li className="list-group-item">
                   <strong>Location:</strong> {data.event.location}

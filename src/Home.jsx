@@ -63,7 +63,7 @@ function Home() {
               <Route path="/users" element={<Users />} />
               <Route path="/speakers" element={<Speakers />} />
               <Route path="/sponsors" element={<Sponsors />} />
-              <Route path="/room" element={<Room />} />
+              <Route path="/room/:id" element={<Room />} />
             </Routes>
           </div>
         </div>
