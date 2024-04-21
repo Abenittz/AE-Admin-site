@@ -52,7 +52,11 @@ const EventDetail = () => {
           <p className="lead">{data.event.description}</p>
           <div className="row">
             <div className="col-md-6">
-              <Link to={`/room/${path}`} className="btn btn-danger mb-3">
+              <Link
+                to={`/sharelink/${data.event.id}`}
+                state={{ data: data.event }}
+                className="btn btn-danger mb-3"
+              >
                 Go Live
               </Link>
               <ul className="list-group mb-4">

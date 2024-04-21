@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { EventContext } from "./MyContext";
 import { useNavigate } from "react-router-dom";
 
 function Nav() {
-  const { user, logoutUser } = useContext(EventContext);
-  const navigate = useNavigate();
+  // const [users, setUsers] = useState();
+  // // console.log(users.user.fullname);
+
+  // useEffect(() => {
+  //   const userDataString = sessionStorage.getItem("userData");
+  //   if (userDataString) {
+  //     const userData = JSON.parse(userDataString);
+  //     setUsers(userData);
+  //   }
+  // }, []);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -30,7 +38,7 @@ function Nav() {
       <div className="collapse navbar-collapse" id="collapsibleNavId">
         <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
           <li className="nav-item dropdown">
-            {/* <a
+            <a
               className="nav-link dropdown-toggle"
               href="#"
               id="dropdownId"
@@ -38,8 +46,9 @@ function Nav() {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
-            </a> */}
+              {/* {users.user.username.charAt(0).toUpperCase() +
+                users.user.username.slice(1)} */}
+            </a>
 
             <div className="dropdown-menu" aria-labelledby="dropdownId">
               <a className="dropdown-item" href="#">

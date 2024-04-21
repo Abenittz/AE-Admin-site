@@ -3,12 +3,12 @@ import { EventContext } from "./MyContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "./img/logo-5.png";
 import "./style.css";
-import Sharelink from "./Sharelink";
+// import Sharelink from "./Sharelink";
 
 function Sidebar() {
   const location = useLocation();
 
-  const isRoomPath = location.pathname.includes("room");
+  // const isRoomPath = location.pathname.includes("room");
 
   const { logoutUser } = useContext(EventContext);
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ function Sidebar() {
           <span>Logout</span>
         </a>
       </div>
-      {isRoomPath && <Sharelink />}
+      {/* {isRoomPath && <Sharelink />} */}
     </div>
   );
 }

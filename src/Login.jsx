@@ -19,7 +19,7 @@ const Login = () => {
     };
 
     const handleSuccess = (logged) => {
-      navigate("/");
+      navigate("/", { replace: true });
     };
     const handleError = () => {
       alert("login failed");

@@ -19,8 +19,8 @@ const EventProvider = ({ children }) => {
       : null
   );
   let [user, setUser] = useState(() =>
-    localStorage.getItem("authTokens")
-      ? jwtDecode(localStorage.getItem("authTokens"))
+    sessionStorage.getItem("authTokens")
+      ? jwtDecode(sessionStorage.getItem("authTokens"))
       : null
   );
 
@@ -164,7 +164,7 @@ const EventProvider = ({ children }) => {
 
   const loginUser = async (userData, onSuccess, onError) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/token/", {
+      const response = await fetch("http://127.0.0.1:8000/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -174,10 +174,15 @@ const EventProvider = ({ children }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setAuthTokens(data);
-        setUser(jwtDecode(data.access));
-        localStorage.setItem("authTokens", JSON.stringify(data));
-        onSuccess(data); // Send the entire response data to the success callback
+        console.log(data.user.is_staff);
+        if (data.user.is_staff) {
+          sessionStorage.setItem("userData", JSON.stringify(data));
+          onSuccess(data);
+        } else {
+          onError(
+            "Unauthorized access: You are not authorized to log in as a staff member."
+          );
+        }
       } else {
         onError();
       }

@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function Users() {
+  const [users, setUsers] = useState();
+  // console.log(users.user.fullname);
+
+  useEffect(() => {
+    const userDataString = sessionStorage.getItem("userData");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      setUsers(userData);
+    }
+  }, []);
+
   return (
     <div>
-      <table class="table caption-top rounded mt-2 bg-white">
+      <table className="table caption-top rounded mt-2 bg-white">
         <caption className="text-white fs-4">Site Users</caption>
         <thead>
           <tr>
@@ -14,22 +25,24 @@ function Users() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Duresa Wata</td>
-            <td>duresa@gmail.com</td>
-            <td>Superuser</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Kuma Telila</td>
-            <td>kuma@gmail.com</td>
-            <td>Admin</td>
-          </tr>
+          {users ? (
+            <tr>
+              <th scope="row">1</th>
+              <td>{users.user.fullname}</td>
+              <td>{users.user.email}</td>
+              <td>superUser</td>
+            </tr>
+          ) : (
+            <tr>
+              <td colSpan="4" className="text-center">
+                User not found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       <a href="/users/add" className="btn btn-success fw-bold">
-        <i class="bi bi-plus-circle"></i> Add User
+        <i className="bi bi-plus-circle"></i> Add User
       </a>
     </div>
   );

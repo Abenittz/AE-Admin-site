@@ -20,6 +20,8 @@ import UpdateEvent from "./UpdateEvent";
 import Room from "./Room";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./Login";
+import Sharelink from "./Sharelink";
 
 function Home() {
   const [toggle, setTottle] = useState(true);
@@ -28,10 +30,10 @@ function Home() {
   };
 
   return (
-    <div className="container-fluid bg-light min-vh-100 overflow-hidden">
+    <div className="container-fluid bg-white min-vh-100 overflow-hidden">
       <div className="row">
         {toggle && (
-          <div className="col-4 col-md-2 bg-white vh-100 position-fixed">
+          <div className="col-4 col-md-2 bg-black vh-100 position-fixed">
             <Sidebar />
           </div>
         )}
@@ -64,6 +66,7 @@ function Home() {
               <Route path="/speakers" element={<Speakers />} />
               <Route path="/sponsors" element={<Sponsors />} />
               <Route path="/room/:id" element={<Room />} />
+              <Route path="/sharelink/:id" element={<Sharelink />} />
             </Routes>
           </div>
         </div>
