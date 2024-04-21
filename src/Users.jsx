@@ -23,16 +23,13 @@ function Users() {
         userId,
         () => {
           console.log("User is_staff toggled successfully");
-          // Optionally, update the local state or perform any other actions after the toggle
         },
         () => {
           console.error("Failed to toggle user is_staff status");
-          // Handle the error, e.g., show an error message to the user
         }
       );
     } catch (error) {
       console.error("Error toggling user is_staff status:", error);
-      // Handle the error, e.g., show an error message to the user
     }
   };
 
