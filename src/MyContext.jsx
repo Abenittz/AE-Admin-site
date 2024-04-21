@@ -10,6 +10,8 @@ const EventProvider = ({ children }) => {
   const [speakers, setSpeakers] = useState([]);
   const [sponsors, setSponsors] = useState([]);
   const [attendees, setAttendees] = useState([]);
+  const [eventUsers, setEventusers] = useState([]);
+  // const [getUserById, setGetUserById] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -31,11 +33,15 @@ const EventProvider = ({ children }) => {
         const speakersFromServer = await fetchSpeakers();
         const sponsorsFromServer = await fetchSponsors();
         const attendeesFromServer = await fetchAttendees();
+        const eventusersFromServer = await fetchEventusers();
+        // const getUserByIDFromServer = await fetchGetUserById();
 
         setSpeakers(speakersFromServer);
         setSponsors(sponsorsFromServer);
         setAttendees(attendeesFromServer);
         setEvents(eventsFromServer);
+        setEventusers(eventusersFromServer);
+        // setGetUserById(getUserByIDFromServer);
       } catch (error) {
         setError("Error fetching data");
       } finally {
@@ -77,6 +83,22 @@ const EventProvider = ({ children }) => {
     }
     return res.json();
   };
+
+  const fetchEventusers = async () => {
+    const res = await fetch("http://127.0.0.1:8000/api/eventusers/");
+    if (!res.ok) {
+      throw new Error("Failed to fetch users");
+    }
+    return res.json();
+  };
+
+  // const fetchGetUserById = async () => {
+  //   const res = await fetch("api/users/<int:user_id>/");
+  //   if (!res.ok) {
+  //     throw new Error("failed to fetch user by id");
+  //   }
+  //   return res.json();
+  // };
 
   // const getEvent = async (eventId) => {
   //   const res = await fetch(`http://10.240.68.67:8000/api/event/${eventId}`);
@@ -128,6 +150,50 @@ const EventProvider = ({ children }) => {
         onError();
       }
     } catch (error) {
+      onError();
+    }
+  };
+
+  const toggleUserIsStaffById = async (userId, onSuccess, onError) => {
+    try {
+      // Fetch the current user data
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/eventusers/${userId}/`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      const userData = await response.json();
+
+      // Toggle the is_staff field
+      const updatedIsStaff = !userData.is_staff;
+
+      // Update the user with the new is_staff value and include other fields
+      const updateResponse = await fetch(
+        `http://127.0.0.1:8000/api/eventusers/${userId}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: userData.username,
+            fullname: userData.fullname,
+            email: userData.email,
+            password: userData.password,
+            is_staff: updatedIsStaff,
+          }),
+        }
+      );
+
+      if (updateResponse.status === 200) {
+        const updatedUser = await updateResponse.json();
+        onSuccess(updatedUser);
+      } else {
+        onError();
+      }
+    } catch (error) {
+      console.error("Error toggling user is_staff status:", error);
       onError();
     }
   };
@@ -321,8 +387,31 @@ const EventProvider = ({ children }) => {
     }
   };
 
+  const updateUserIsStaffById = async (userId, isStaff) => {
+    try {
+      const response = await fetch(`/api/users/${userId}/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ is_staff: isStaff }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user is_staff status");
+      }
+
+      const updatedUserData = await response.json();
+      return updatedUserData;
+    } catch (error) {
+      console.error("Error updating user is_staff status:", error);
+      throw error;
+    }
+  };
+
   const contextValue = {
     events,
+    toggleUserIsStaffById,
     createEvent,
     editEvent,
     deleteEvent,
@@ -334,7 +423,10 @@ const EventProvider = ({ children }) => {
     registerSponsor,
     registerSchedule,
     registerRoomid,
+    updateUserIsStaffById,
     // getEvent,
+    // getUserById,
+    eventUsers,
     speakers,
     sponsors,
     attendees,

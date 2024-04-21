@@ -1,16 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { EventContext } from "./MyContext";
+import { FaEllipsisH } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Users() {
-  const [users, setUsers] = useState();
+  const [eventusers, setEventusers] = useState();
   // console.log(users.user.fullname);
+  const { eventUsers, toggleUserIsStaffById } = useContext(EventContext);
+  console.log(eventUsers);
 
-  useEffect(() => {
-    const userDataString = sessionStorage.getItem("userData");
-    if (userDataString) {
-      const userData = JSON.parse(userDataString);
-      setUsers(userData);
+  // useEffect(() => {
+  //   const userDataString = sessionStorage.getItem("userData");
+  //   if (userDataString) {
+  //     const userData = JSON.parse(userDataString);
+  //     setUsers(userData);
+  //   }
+  // }, []);
+
+  const handleAddAdmin = async (userId) => {
+    try {
+      await toggleUserIsStaffById(
+        userId,
+        () => {
+          console.log("User is_staff toggled successfully");
+          // Optionally, update the local state or perform any other actions after the toggle
+        },
+        () => {
+          console.error("Failed to toggle user is_staff status");
+          // Handle the error, e.g., show an error message to the user
+        }
+      );
+    } catch (error) {
+      console.error("Error toggling user is_staff status:", error);
+      // Handle the error, e.g., show an error message to the user
     }
-  }, []);
+  };
 
   return (
     <div>
@@ -25,13 +49,41 @@ function Users() {
           </tr>
         </thead>
         <tbody>
-          {users ? (
-            <tr>
-              <th scope="row">1</th>
-              <td>{users.user.fullname}</td>
-              <td>{users.user.email}</td>
-              <td>superUser</td>
-            </tr>
+          {eventUsers !== null ? (
+            eventUsers.map((user) => (
+              <tr key={user.id}>
+                <th scope="row">{user.id}</th>
+                <td>{user.fullname}</td>
+                <td>{user.email}</td>
+                <td>{user.is_staff === true ? <kbd>Admin</kbd> : "Atendee"}</td>
+                <td>
+                  <div className="dropup">
+                    <a
+                      className=""
+                      href="#"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <FaEllipsisH />
+                    </a>
+
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a
+                          className="dropdown-item pointer"
+                          onClick={() => handleAddAdmin(user.id)}
+                        >
+                          {user.is_staff === true
+                            ? "Remove Admin"
+                            : "Add Admin"}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            ))
           ) : (
             <tr>
               <td colSpan="4" className="text-center">
