@@ -4,18 +4,14 @@ import { FaEllipsisH } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function Users() {
-  const [eventusers, setEventusers] = useState();
-  // console.log(users.user.fullname);
-  const { eventUsers, toggleUserIsStaffById } = useContext(EventContext);
-  console.log(eventUsers);
+  const [eventUsers, setEventUsers] = useState(null);
+  const { eventUsers: contextEventUsers, toggleUserIsStaffById } =
+    useContext(EventContext);
 
-  // useEffect(() => {
-  //   const userDataString = sessionStorage.getItem("userData");
-  //   if (userDataString) {
-  //     const userData = JSON.parse(userDataString);
-  //     setUsers(userData);
-  //   }
-  // }, []);
+  // Fetch initial user data
+  useEffect(() => {
+    setEventUsers(contextEventUsers);
+  }, [contextEventUsers]);
 
   const handleAddAdmin = async (userId) => {
     try {
@@ -23,6 +19,12 @@ function Users() {
         userId,
         () => {
           console.log("User is_staff toggled successfully");
+          // Update user status locally after successful toggle
+          setEventUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.id === userId ? { ...user, is_staff: !user.is_staff } : user
+            )
+          );
         },
         () => {
           console.error("Failed to toggle user is_staff status");
@@ -52,7 +54,9 @@ function Users() {
                 <th scope="row">{user.id}</th>
                 <td>{user.fullname}</td>
                 <td>{user.email}</td>
-                <td>{user.is_staff === true ? <kbd>Admin</kbd> : "Atendee"}</td>
+                <td>
+                  {user.is_staff === true ? <kbd>Admin</kbd> : "Attendee"}
+                </td>
                 <td>
                   <div className="dropup">
                     <a
@@ -65,7 +69,7 @@ function Users() {
                       <FaEllipsisH />
                     </a>
 
-                    <ul class="dropdown-menu">
+                    <ul className="dropdown-menu">
                       <li>
                         <a
                           className="dropdown-item pointer"
@@ -90,9 +94,9 @@ function Users() {
           )}
         </tbody>
       </table>
-      <a href="/users/add" className="btn btn-success fw-bold">
+      <Link to="/users/add" className="btn btn-success fw-bold">
         <i className="bi bi-plus-circle"></i> Add User
-      </a>
+      </Link>
     </div>
   );
 }

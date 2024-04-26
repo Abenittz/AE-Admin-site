@@ -8,8 +8,6 @@ import "./style.css";
 
 function Sidebar() {
   const [users, setUsers] = useState();
-  // console.log(users.user.fullname);
-  console.log(users);
 
   useEffect(() => {
     const userDataString = sessionStorage.getItem("userData");
@@ -20,24 +18,25 @@ function Sidebar() {
   }, []);
 
   const location = useLocation();
-
-  // const isRoomPath = location.pathname.includes("room");
-
-  const { logoutUser } = useContext(EventContext);
   const navigate = useNavigate();
+  const { logoutUser } = useContext(EventContext);
 
   const handleLogout = async (e) => {
     e.preventDefault();
-
     logoutUser();
     navigate("/login");
   };
+
+  const isRoomPath = /\/room/.test(location.pathname);
+
+  if (isRoomPath) {
+    return null;
+  }
 
   return (
     <div className="bg-white p-2 vh-100 sidebar d-flex flex-column justify-content-between">
       <div className="wrapper">
         <div className="m-2">
-          {/* <i className="bi bi-bootstrap-fill me-3 fs-4"></i> */}
           <img src={logo} alt="" className="me-3 fs-4" width="30" height="24" />
           <span className="brand-name fs-4">AstuEvents</span>
         </div>
@@ -58,10 +57,6 @@ function Sidebar() {
             <span>Events</span>
           </a>
 
-          {/* <a className="list-group-item py-2">
-          <i className="bi bi-clipboard-data fs-5 me-3"></i>
-          <span>Report</span>
-        </a> */}
           <a href="/speakers" className="list-group-item py-2">
             <i className="bi bi-megaphone fs-5 me-3"></i>
             <span>Speakers</span>
@@ -87,12 +82,12 @@ function Sidebar() {
       {users && (
         <div className="card p-1 px-2 mb-4">
           <div className="card-content d-flex justify-content-end align-items-center">
-            <figure class="text-end mb-0 me-2">
-              <blockquote class="blockquote">
-                <p>{users && users["username"]}</p>
+            <figure className="text-end mb-0 me-2">
+              <blockquote className="blockquote">
+                <p>{users["username"]}</p>
               </blockquote>
-              <figcaption class="blockquote-footer mb-0">
-                <cite title="Source Title">{users && users["fullname"]}</cite>
+              <figcaption className="blockquote-footer mb-0">
+                <cite title="Source Title">{users["fullname"]}</cite>
               </figcaption>
             </figure>
             <img
@@ -103,7 +98,8 @@ function Sidebar() {
                 height: "40px",
                 borderRadius: "100%",
               }}
-            ></img>
+              alt=""
+            />
           </div>
         </div>
       )}

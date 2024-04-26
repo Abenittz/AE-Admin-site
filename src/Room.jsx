@@ -24,6 +24,7 @@ export function getUrlParams(url = window.location.href) {
 export default function App() {
   const location = useLocation();
   const roomId = location.search.substring(1);
+  console.log(roomId);
   // const roomID = getUrlParams().get("roomID") || randomID(5);
   let role_str = getUrlParams(window.location.href).get("role") || "Host";
   const role =

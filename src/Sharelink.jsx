@@ -34,7 +34,8 @@ const Sharelink = () => {
     console.log("Number not found in URL");
   }
 
-  const finalurl = `${localhost}room/${eventid}?roomID=${roomid}=Audience`;
+  // const finalurl = `${localhost}room/${eventid}?roomID=${roomid}&role=Audience`;
+  const finalurl = `${roomid}`;
 
   const navigate = useNavigate();
 
