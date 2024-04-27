@@ -10,6 +10,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Login />} />
         <Route
           path="*"
           element={
@@ -17,16 +18,24 @@ function App() {
               <Home />
             </PrivateRoute>
           }
-        ></Route>
-        <Route path="/login" element={<Login />} />
+        />
       </Routes>
     </Router>
-    // <Router>
-    //   <Routes>
-    //     <Route path="*" element={<Home />} />
-    //   </Routes>
-    // </Router>
   );
 }
 
 export default App;
+
+// return (
+//   <Router>
+//     <Routes>
+//       <Route path="/login" element={<Login />} /> {/* Public route */}
+//       <PrivateRoute path="*">
+//         {" "}
+//         {/* Private route */}
+//         <Home /> {/* Component rendered for authenticated users */}
+//       </PrivateRoute>
+//     </Routes>
+//   </Router>
+// );
+// }

@@ -42,7 +42,7 @@ function Home() {
           <div className="px-3">
             <Nav Toggle={Toggle} />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/events" element={<Events />} />
               <Route path="/events/:id" element={<EventDetail />} />
               <Route path="/events/:id/attendees" element={<EventAttendee />} />

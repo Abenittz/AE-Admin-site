@@ -261,7 +261,7 @@ const EventProvider = ({ children }) => {
   let logoutUser = () => {
     setAuthTokens(null);
     setUser(null);
-    localStorage.removeItem("authTokens");
+    localStorage.removeItem("userData");
   };
 
   const registerAttendee = async (attendeeData, onSuccess, onError) => {

@@ -1,12 +1,14 @@
-import { Navigate, Route } from "react-router-dom";
-import { useContext } from "react";
+import { Route, Navigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { EventContext } from "./MyContext";
 
-const PrivateRoute = ({ children }) => {
-  // let { user } = useContext(EventContext);
+function PrivateRoute({ children }) {
+  const isAuthenticated = () => {
+    const token = sessionStorage.getItem("userData"); // Retrieve JWT token from session storage
+    return token ? true : false;
+  };
 
-  const user = true;
-  return user ? <>{children}</> : <Navigate to="/login" />;
-};
+  return isAuthenticated ? <>{children}</> : <Navigate to="/" />;
+}
 
 export default PrivateRoute;

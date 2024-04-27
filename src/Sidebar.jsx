@@ -42,12 +42,12 @@ function Sidebar() {
         </div>
         <hr className="text-dark" />
         <div className="list-group list-group-flush">
-          <a href="/" className="list-group-item py-2">
+          <a href="/dashboard" className="list-group-item py-2">
             <i className="bi bi-speedometer2 fs-5 me-3"></i>
             <span>Dashboard</span>
           </a>
 
-          <a href="/" className="list-group-item py-2">
+          <a href="/dashboard" className="list-group-item py-2">
             <i className="bi bi-house fs-5 me-3"></i>
             <span>Home</span>
           </a>
