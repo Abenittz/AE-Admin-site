@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import HeaderAdmin from "./HeaderBak";
 import imageUrl from "./img/event.jpg";
-// import { FaEllipsisH } from "react-icons/fa";
+import { FaEllipsisH } from "react-icons/fa";
 
 function Dashboard() {
   // let { user } = useContext(EventContext);
@@ -164,48 +164,36 @@ function Dashboard() {
         </div>
       </div>
       {events.map((event) => (
-        <div className="container mt-3 mb-5">
+        <div className="container mt-3">
           <div className="card">
-            <div className="card-container d-flex flex-row">
-              {/* <div className="img-box w-25">
+            <div className="card-container p-3 d-flex flex-row">
+              <div className="img-box">
                 <div className="img-container">
                   <img className="card-img-top" src={imageUrl} alt="..." />
                 </div>
-              </div> */}
+              </div>
               <div className="card-body">
-                <div className="header-container d-flex justify-content-between align-items-center">
+                <div className="header-container d-flex justify-content-between">
                   <div className="header">
-                    <h4 className="card-title m-0">{event.title}</h4>
-                    <p className="text-muted m-0">Location: {event.location}</p>
-                  </div>
-                  <div className="speakers ">
-                    <h5 className="m-0">Chapi Menge 2 others</h5>
+                    <h3 className="card-title m-0">{event.title}</h3>
+                    <h5 className="text-muted">Location: {event.location}</h5>
                   </div>
 
-                  <div className="start-date">
-                    <p className="m-0 ">{event.start_date}</p>
-                    <p className="text-muted m-0">Start Date</p>
-                  </div>
-                  <div className="end-date">
-                    <p className="m-0 ">{event.end_date}</p>
-                    <p className="text-muted m-0">End Date</p>
-                  </div>
-
-                  {/* <div class="dropup">
+                  <div class="dropup">
                     <a
                       class="btn btn-outline-secondary"
                       href="#"
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
-                    > */}
-                  {/* <FaEllipsisH /> Detail */}
-                  {/* </a>
+                    >
+                      <FaEllipsisH />
+                    </a>
 
                     <ul class="dropdown-menu">
                       <li>
                         <Link
-                          to={`/admindetail/${event.id}`}
+                          to={`/events/${event.id}`}
                           state={{ event: event }}
                           className="dropdown-item"
                         >
@@ -213,7 +201,7 @@ function Dashboard() {
                         </Link>
                       </li>
                     </ul>
-                  </div> */}
+                  </div>
 
                   {/* <div className="option">
                     <Link
@@ -224,6 +212,21 @@ function Dashboard() {
                       <FaEllipsisH />
                     </Link>
                   </div> */}
+                </div>
+
+                <div className="card-description mt-3 d-flex justify-content-between ">
+                  <div className="start-date">
+                    <p className="text-muted m-0">Start Date</p>
+                    <p>{event.start_date}</p>
+                  </div>
+                  <div className="end-date">
+                    <p className="text-muted m-0">End Date</p>
+                    <p>{event.end_date}</p>
+                  </div>
+                  <div className="speakers me-5 pe-5">
+                    <p className="text-muted m-0">Speakers</p>
+                    <p>Chapi Menge 2 others</p>
+                  </div>
                 </div>
               </div>
             </div>

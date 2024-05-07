@@ -7,16 +7,6 @@ import "./style.css";
 // import Sharelink from "./Sharelink";
 
 function Sidebar() {
-  const [users, setUsers] = useState();
-
-  useEffect(() => {
-    const userDataString = sessionStorage.getItem("userData");
-    if (userDataString) {
-      const userData = JSON.parse(userDataString);
-      setUsers(userData.user);
-    }
-  }, []);
-
   const location = useLocation();
   const navigate = useNavigate();
   const { logoutUser } = useContext(EventContext);
@@ -24,7 +14,7 @@ function Sidebar() {
   const handleLogout = async (e) => {
     e.preventDefault();
     logoutUser();
-    navigate("/login");
+    navigate("/");
   };
 
   const isRoomPath = /\/room/.test(location.pathname);
@@ -78,31 +68,6 @@ function Sidebar() {
         </div>
         {/* {isRoomPath && <Sharelink />} */}
       </div>
-
-      {users && (
-        <div className="card p-1 px-2 mb-4">
-          <div className="card-content d-flex justify-content-end align-items-center">
-            <figure className="text-end mb-0 me-2">
-              <blockquote className="blockquote">
-                <p>{users["username"]}</p>
-              </blockquote>
-              <figcaption className="blockquote-footer mb-0">
-                <cite title="Source Title">{users["fullname"]}</cite>
-              </figcaption>
-            </figure>
-            <img
-              src={avatar}
-              className="card-img ms-2"
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "100%",
-              }}
-              alt=""
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

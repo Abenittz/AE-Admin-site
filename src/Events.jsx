@@ -12,7 +12,7 @@ function Events() {
   return (
     <div>
       <table className="table caption-top rounded mt-2 bg-white">
-        <caption className="text-white fs-4">All Events</caption>
+        <caption className="text-dark fs-4">All Events</caption>
         <thead>
           <tr>
             <th>ID</th>

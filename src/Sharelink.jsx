@@ -71,18 +71,17 @@ const Sharelink = () => {
                 onChange={(e) => setRoomid(e.target.value)}
                 required
               ></input> */}
-              <h2 className="text-center text-black fw-bold">Room ID</h2>
-              <p className="text-center">share the link and create the room</p>
+              <h2 className="text-center text-black fw-bold">Room Name</h2>
+              <p className="text-center">Enter room Name and continue</p>
               <div>
                 {/* Input field with predefined value */}
-                <input
+                {/* <input
                   type="text"
                   className="form-control w-100 mb-2"
                   value={localhost}
                   onChange={handleChange}
                   // Prevents editing of the predefined text
-                />
-
+                /> */}
                 {/* Input field for adding additional text */}
                 <input
                   type="text"

@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const EventSpeaker = () => {
   const location = useLocation();
-  const data = location.state;
-  const speakers = data.event.speakers;
+  const [speakers, setSpeakers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = location.state;
+      setSpeakers(data.event.speakers);
+    };
+
+    fetchData();
+  }, [location]);
   return (
     <div>
       <table class="table caption-top rounded mt-2 bg-white">
@@ -30,8 +38,8 @@ const EventSpeaker = () => {
       </table>
       <Link
         className="btn btn-success fw-bold"
-        to={`/events/${data.event.id}/speakers/add`}
-        state={{ event: data.event }}
+        to={`/events/${location.state.event.id}/speakers/add`}
+        state={{ event: location.state.event }}
       >
         <i class="bi bi-plus-circle"></i> Add Speaker
       </Link>

@@ -39,7 +39,7 @@ function Home() {
         )}
         {toggle && <div className="col-4 col-md-2"></div>}
         <div className="col">
-          <div className="px-3">
+          <div className="dash-background px-3">
             <Nav Toggle={Toggle} />
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
