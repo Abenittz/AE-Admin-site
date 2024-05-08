@@ -259,9 +259,10 @@ const EventProvider = ({ children }) => {
   };
 
   let logoutUser = () => {
+    sessionStorage.removeItem("userData");
     setAuthTokens(null);
     setUser(null);
-    localStorage.removeItem("userData");
+    console.log(sessionStorage.getItem("userData"));
   };
 
   const registerAttendee = async (attendeeData, onSuccess, onError) => {
