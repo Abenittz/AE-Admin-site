@@ -5,8 +5,31 @@ import logo from "./img/logo-5.png";
 import avatar from "./img/Avatar.jpg";
 import "./style.css";
 // import Sharelink from "./Sharelink";
+import Pill from "./Pill";
+import useScreenRecorder from "./screenRec";
 
 function Sidebar() {
+  const [users, setUsers] = useState();
+  // console.log(users.user.fullname);
+  console.log(users);
+
+  useEffect(() => {
+    const userDataString = sessionStorage.getItem("userData");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      setUsers(userData.user);
+    }
+  }, []);
+  const {
+    startRecording,
+    pauseRecording,
+    blobUrl,
+    resetRecording,
+    resumeRecording,
+    status,
+    stopRecording,
+  } = useScreenRecorder({ audio: true });
+
   const location = useLocation();
   const navigate = useNavigate();
   const { logoutUser } = useContext(EventContext);
@@ -66,8 +89,31 @@ function Sidebar() {
             <span>Logout</span>
           </a>
         </div>
-        {/* {isRoomPath && <Sharelink />} */}
       </div>
+
+      {users && (
+        <div className="card p-1 px-2 mb-4">
+          <div className="card-content d-flex justify-content-end align-items-center">
+            <figure class="text-end mb-0 me-2">
+              <blockquote class="blockquote">
+                <p>{users && users["username"]}</p>
+              </blockquote>
+              <figcaption class="blockquote-footer mb-0">
+                <cite title="Source Title">{users && users["fullname"]}</cite>
+              </figcaption>
+            </figure>
+            <img
+              src={avatar}
+              className="card-img ms-2"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "100%",
+              }}
+            ></img>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

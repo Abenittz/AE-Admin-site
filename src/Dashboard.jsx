@@ -17,6 +17,7 @@ function Dashboard() {
   const data = location.state;
   console.log(data);
   console.log(events);
+
   const countEvents = events.length;
   const countSpeakers = speakers.length;
   const countSponsors = sponsors.length;
@@ -147,7 +148,10 @@ function Dashboard() {
       </div>
 
       {/* This is the Event List */}
-      <div className="container mt-5 mb-5 ">
+      <div className="container mt-5 mb-5 d-flex justify-content-between">
+        <div className="title">
+          <h1 className="m-0">Events</h1>
+        </div>
         <div className="search-bar d-flex justify-content-end">
           <div className="search-field me-3">
             <input
@@ -225,7 +229,7 @@ function Dashboard() {
                   </div>
                   <div className="speakers me-5 pe-5">
                     <p className="text-muted m-0">Speakers</p>
-                    <p>Chapi Menge 2 others</p>
+                    <p></p>
                   </div>
                 </div>
               </div>

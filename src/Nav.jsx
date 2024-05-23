@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { EventContext } from "./MyContext";
 import { useNavigate } from "react-router-dom";
 import avatar from "./img/Avatar.jpg";
+import useScreenRecorder from "./screenRec";
 
 function Nav() {
   const [users, setUsers] = useState();
@@ -14,6 +15,19 @@ function Nav() {
       setUsers(userData.user);
     }
   }, []);
+
+  const {
+    startRecording,
+    pauseRecording,
+    blobUrl,
+    resetRecording,
+    resumeRecording,
+    status,
+    stopRecording,
+  } = useScreenRecorder({ audio: true });
+
+  const isRoom = /\/room/.test(location.pathname);
+
   // const [users, setUsers] = useState();
   // // console.log(users.user.fullname);
 
@@ -35,9 +49,9 @@ function Nav() {
   return (
     <nav className="navbar navbar-expand-sm navbar-dark bg-transparent flex justify-content-between align-items-center">
       <div className="">
-        <i className="navbar-brand bi bi-justify-left fs-4 bg-black"></i>
+        {/* <i className="navbar-brand bi bi-justify-left fs-4 "></i> */}
         <button
-          className="navbar-toggler d-lg-none"
+          className="navbar-toggler d-lg-none py-4"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapsibleNavId"
@@ -48,6 +62,55 @@ function Nav() {
           <i className="bi bi-justify"></i>
         </button>
       </div>
+
+      {isRoom && (
+        <div className="d-flex flex-column">
+          <div className="">
+            {(status === "idle" ||
+              status === "permission-requested" ||
+              status === "error") && (
+              <button
+                onClick={startRecording}
+                className="btn rounded-pill btn-danger px-4 py-1 "
+                data-bs-toggle="tooltip"
+                data-bs-placement="right"
+                data-bs-title="Record"
+              >
+                REC
+              </button>
+            )}
+            {(status === "recording" || status === "paused") && (
+              <button
+                className="btn rounded-pill btn-danger px-4 py-1 "
+                onClick={stopRecording}
+              >
+                Stop recording
+              </button>
+            )}
+            {(status === "recording" || status === "paused") && (
+              <button
+                className="btn rounded-pill btn-danger px-4 py-1 "
+                onClick={() =>
+                  status === "paused" ? resumeRecording() : pauseRecording()
+                }
+              >
+                {status === "paused" ? "Resume recording" : "Pause recording"}
+              </button>
+            )}
+            {status === "stopped" && (
+              <button
+                onClick={() => {
+                  resetRecording();
+                  videoRef.current.load();
+                }}
+                className="btn rounded-pill btn-danger px-4 py-1 "
+              >
+                Reset recording
+              </button>
+            )}
+          </div>
+        </div>
+      )}
       {/* <div className="collapse navbar-collapse" id="collapsibleNavId">
         <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
           <li className="nav-item dropdown">
@@ -75,7 +138,7 @@ function Nav() {
         </ul>
       </div> */}
 
-      {users && (
+      {/* {users && (
         <div className="card px-1 mb-0 ">
           <div
             className="card-content px-2 py-1 d-flex justify-content-end align-items-center nav-link "
@@ -110,7 +173,7 @@ function Nav() {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </nav>
   );
 }
