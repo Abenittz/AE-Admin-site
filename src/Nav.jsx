@@ -101,7 +101,7 @@ function Nav() {
               <button
                 onClick={() => {
                   resetRecording();
-                  videoRef.current.load();
+                  // videoRef.current.load();
                 }}
                 className="btn rounded-pill btn-danger px-4 py-1 "
               >

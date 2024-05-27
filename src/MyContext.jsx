@@ -15,12 +15,12 @@ const EventProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  let [authTokens, setAuthTokens] = useState(() =>
+  const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
   );
-  let [user, setUser] = useState(() =>
+  const [user, setUser] = useState(() =>
     sessionStorage.getItem("authTokens")
       ? jwtDecode(sessionStorage.getItem("authTokens"))
       : null
@@ -258,7 +258,7 @@ const EventProvider = ({ children }) => {
     }
   };
 
-  let logoutUser = () => {
+  const logoutUser = () => {
     sessionStorage.removeItem("userData");
     setAuthTokens(null);
     setUser(null);

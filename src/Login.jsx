@@ -21,6 +21,7 @@ const Login = () => {
     const handleSuccess = (logged) => {
       navigate("/dashboard", { replace: true });
     };
+
     const handleError = () => {
       alert("login failed");
     };

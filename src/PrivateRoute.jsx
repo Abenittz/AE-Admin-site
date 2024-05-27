@@ -5,7 +5,7 @@ import { EventContext } from "./MyContext";
 function PrivateRoute({ children }) {
   const isAuthenticated = () => {
     const token = sessionStorage.getItem("userData"); // Retrieve JWT token from session storage
-    return token == null;
+    return token !== null;
   };
 
   return isAuthenticated() ? <>{children}</> : <Navigate to="/" />;

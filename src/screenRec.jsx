@@ -22,7 +22,7 @@ const useScreenRecorder = ({ options, audio = false }) => {
 
   const requestMediaStream = async () => {
     try {
-      let displayMedia = await navigator.mediaDevices.getDisplayMedia();
+      const displayMedia = await navigator.mediaDevices.getDisplayMedia();
       let userMedia;
 
       if (audio) {
@@ -79,6 +79,25 @@ const useScreenRecorder = ({ options, audio = false }) => {
     document.body.removeChild(a);
   };
 
+  const uploadVideo = () => {
+    if (!blob) return;
+
+    const formData = new FormData();
+    formData.append("video", blob, "recorded-video.webm");
+
+    fetch("http://localhost:8000/api/videos/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   const startRecording = async () => {
     let recorder = mediaRecorder;
     if (!mediaRecorder) {
@@ -102,6 +121,7 @@ const useScreenRecorder = ({ options, audio = false }) => {
 
   const resetRecording = () => {
     if (status === "stopped" && blobUrl) {
+      uploadVideo();
       downloadVideo();
     }
     setBlobUrl(null);
