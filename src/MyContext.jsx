@@ -92,6 +92,28 @@ const EventProvider = ({ children }) => {
     return res.json();
   };
 
+  const addSpeaker = async (speakerData, onSuccess, onError) => {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/speakers/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(speakerData),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setSpeakers((prevSpeakers) => [...prevSpeakers, data]);
+        onSuccess(data);
+      } else {
+        onError();
+      }
+    } catch (error) {
+      console.error("speaker registration error:", error);
+      onError();
+    }
+  };
   // const fetchGetUserById = async () => {
   //   const res = await fetch("api/users/<int:user_id>/");
   //   if (!res.ok) {
@@ -305,6 +327,7 @@ const EventProvider = ({ children }) => {
 
       if (response.ok) {
         const data = await response.json();
+        setSpeakers((prevSpeakers) => [...prevSpeakers, data]);
         onSuccess(data); // Send the entire response data to the success callback
       } else {
         onError();
@@ -425,6 +448,7 @@ const EventProvider = ({ children }) => {
     registerSchedule,
     registerRoomid,
     updateUserIsStaffById,
+    addSpeaker,
     // getEvent,
     // getUserById,
     eventUsers,
