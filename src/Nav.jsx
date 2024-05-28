@@ -105,7 +105,7 @@ function Nav() {
                 }}
                 className="btn rounded-pill btn-danger px-4 py-1 "
               >
-                Reset recording
+                Save
               </button>
             )}
           </div>

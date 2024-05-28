@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { EventContext } from "./MyContext";
 
 const EventSpeaker = () => {
-  const location = useLocation();
-  const [speakers, setSpeakers] = useState([]);
+  const { speakers } = useContext(EventContext);
+  console.log(speakers);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = location.state;
-      setSpeakers(data.event.speakers);
-    };
-
-    fetchData();
-  }, [location]);
   return (
     <div>
       <table class="table caption-top rounded mt-2 bg-white">
@@ -26,8 +19,8 @@ const EventSpeaker = () => {
           </tr>
         </thead>
         <tbody>
-          {speakers.map((speaker, index) => (
-            <tr key={index}>
+          {speakers.map((speaker) => (
+            <tr key={speaker.id}>
               <th scope="row">{speaker.id}</th>
               <td>{speaker.fullname}</td>
               <td>{speaker.organization}</td>
@@ -36,12 +29,19 @@ const EventSpeaker = () => {
           ))}
         </tbody>
       </table>
-      <Link
+      {/* <Link
         className="btn btn-success fw-bold"
         to={`/events/${location.state.event.id}/speakers/add`}
         state={{ event: location.state.event }}
       >
         <i class="bi bi-plus-circle"></i> Add Speaker
+      </Link> */}
+      <Link
+        type="button"
+        className="btn btn-success fw-bold"
+        to={`/events/${location.state.event.id}/speakers/add`}
+      >
+        <i class="bi bi-plus-circle" /> Add Speaker
       </Link>
     </div>
   );

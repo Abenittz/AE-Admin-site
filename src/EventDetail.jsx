@@ -18,12 +18,22 @@ const EventDetail = () => {
     setShowDeleteModal(true);
   };
 
+  const handleEmail = async () => {
+    const res = await fetch("http://127.0.0.1:8000/api/send_mails");
+    if (!res.ok) {
+      throw new Error("Failed to send email");
+    } else {
+      console.log("Email sent successfully");
+    }
+    return res.json();
+  };
+
   const hideDeleteConfirmation = () => {
     setShowDeleteModal(false);
   };
 
   const confirmDelete = async () => {
-    if (data && data.event) {
+    if (data?.event) {
       const eventId = data.event.id; // Assuming the event object has an "id" property
 
       await deleteEvent(
@@ -85,6 +95,11 @@ const EventDetail = () => {
                 </li>
                 <li className="list-group-item">
                   <strong>Event Status:</strong> {data.event.status}
+                </li>
+                <li className="list-group-item">
+                  <button className="btn btn-primary" onClick={handleEmail}>
+                    Send Email
+                  </button>
                 </li>
               </ul>
             </div>
