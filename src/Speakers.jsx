@@ -137,7 +137,11 @@ function Speakers() {
                     >
                       Close
                     </button>
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      data-bs-dismiss="modal"
+                    >
                       Add Speaker
                     </button>
                   </div>

@@ -19,7 +19,7 @@ const EventDetail = () => {
   };
 
   const handleEmail = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/send_mails");
+    const res = await fetch("http://127.0.0.1:8000api/send_mails");
     if (!res.ok) {
       throw new Error("Failed to send email");
     } else {
@@ -141,7 +141,7 @@ const EventDetail = () => {
               {data.event.status === "passed" && (
                 <a
                   className="btn btn-warning float-md-end mt-3"
-                  href={`http://127.0.0.1:8000/api/download-event-report-pdf/${data.event.id}/`}
+                  href={`http://127.0.0.1:8000api/download-event-report-pdf/${data.event.id}/`}
                 >
                   Generate Event Report (pdf)
                 </a>

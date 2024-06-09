@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 // Create the context
 const EventContext = createContext();
@@ -69,7 +70,7 @@ const EventProvider = ({ children }) => {
   };
 
   const fetchAttendees = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/attendees/");
+    const res = await fetch(" http://127.0.0.1:8000/api/attendees/");
     if (!res.ok) {
       throw new Error("Failed to fetch attendees");
     }
@@ -77,7 +78,7 @@ const EventProvider = ({ children }) => {
   };
 
   const fetchEvents = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/events/");
+    const res = await fetch(" http://127.0.0.1:8000/api/events/");
     if (!res.ok) {
       throw new Error("Failed to fetch events");
     }
@@ -85,7 +86,7 @@ const EventProvider = ({ children }) => {
   };
 
   const fetchEventusers = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/eventusers/");
+    const res = await fetch(" http://127.0.0.1:8000/api/eventusers/");
     if (!res.ok) {
       throw new Error("Failed to fetch users");
     }
@@ -94,7 +95,7 @@ const EventProvider = ({ children }) => {
 
   const addSpeaker = async (speakerData, onSuccess, onError) => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/speakers/", {
+      const res = await fetch(" http://127.0.0.1:8000/api/speakers/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -111,6 +112,28 @@ const EventProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("speaker registration error:", error);
+      onError();
+    }
+  };
+  const addSponsor = async (sponsorData, onSuccess, onError) => {
+    try {
+      const res = await fetch(" http://127.0.0.1:8000/api/sponsors/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(sponsorData),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setSpeakers((prevSpeakers) => [...prevSpeakers, data]);
+        onSuccess(data);
+      } else {
+        onError();
+      }
+    } catch (error) {
+      console.error("sponsor registration error:", error);
       onError();
     }
   };
@@ -152,7 +175,7 @@ const EventProvider = ({ children }) => {
 
   const editEvent = async (eventId, updatedEventData, onSuccess, onError) => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/events/${eventId}/`, {
+      const res = await fetch(` http://127.0.0.1:8000/api/events/${eventId}/`, {
         method: "PUT", // Use PUT or PATCH method for editing
         headers: {
           "Content-Type": "application/json",
@@ -180,7 +203,7 @@ const EventProvider = ({ children }) => {
     try {
       // Fetch the current user data
       const response = await fetch(
-        `http://127.0.0.1:8000/api/eventusers/${userId}/`
+        ` http://127.0.0.1:8000/api/eventusers/${userId}/`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
@@ -192,7 +215,7 @@ const EventProvider = ({ children }) => {
 
       // Update the user with the new is_staff value and include other fields
       const updateResponse = await fetch(
-        `http://127.0.0.1:8000/api/eventusers/${userId}/`,
+        ` http://127.0.0.1:8000/api/eventusers/${userId}/`,
         {
           method: "PUT",
           headers: {
@@ -223,7 +246,7 @@ const EventProvider = ({ children }) => {
   const deleteEvent = async (eventId, onSuccess, onError) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/events/${eventId}/`,
+        ` http://127.0.0.1:8000/api/events/${eventId}/`,
         {
           method: "DELETE",
         }
@@ -279,7 +302,6 @@ const EventProvider = ({ children }) => {
       onError();
     }
   };
-
   const logoutUser = () => {
     sessionStorage.removeItem("userData");
     setAuthTokens(null);
@@ -290,7 +312,7 @@ const EventProvider = ({ children }) => {
   const registerAttendee = async (attendeeData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/attendee/register/",
+        " http://127.0.0.1:8000/api/attendee/register/",
         {
           method: "POST",
           headers: {
@@ -315,7 +337,7 @@ const EventProvider = ({ children }) => {
   const registerSpeaker = async (speakerData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/speaker/register/",
+        " http://127.0.0.1:8000/api/speaker/register/",
         {
           method: "POST",
           headers: {
@@ -341,7 +363,7 @@ const EventProvider = ({ children }) => {
   const registerSponsor = async (sponsorData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/sponsor/register/",
+        " http://127.0.0.1:8000/api/sponsor/register/",
         {
           method: "POST",
           headers: {
@@ -366,7 +388,7 @@ const EventProvider = ({ children }) => {
   const registerSchedule = async (scheduleData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/schedule/register/",
+        " http://127.0.0.1:8000/api/schedule/register/",
         {
           method: "POST",
           headers: {
@@ -391,7 +413,7 @@ const EventProvider = ({ children }) => {
   const registerRoomid = async (roomData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/roomId/register/",
+        " http://127.0.0.1:8000/api/roomId/register/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -449,6 +471,7 @@ const EventProvider = ({ children }) => {
     registerRoomid,
     updateUserIsStaffById,
     addSpeaker,
+    addSponsor,
     // getEvent,
     // getUserById,
     eventUsers,

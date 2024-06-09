@@ -94,9 +94,9 @@ function Users() {
           )}
         </tbody>
       </table>
-      <Link to="/users/add" className="btn btn-success fw-bold">
+      {/* <Link to="/users/add" className="btn btn-success fw-bold">
         <i className="bi bi-plus-circle"></i> Add User
-      </Link>
+      </Link> */}
     </div>
   );
 }

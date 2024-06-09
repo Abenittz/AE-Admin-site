@@ -13,7 +13,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const logindata = {
+    const userData = {
       username,
       password,
     };
@@ -26,7 +26,7 @@ const Login = () => {
       alert("login failed");
     };
 
-    loginUser(logindata, handleSuccess, handleError);
+    loginUser(userData, handleSuccess, handleError);
   };
 
   return (

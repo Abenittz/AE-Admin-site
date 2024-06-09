@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { EventContext } from "./MyContext";
 
 const EventSpeaker = () => {
@@ -8,13 +8,54 @@ const EventSpeaker = () => {
   const [role, setRole] = useState("");
   const { registerSpeaker } = useContext(EventContext);
   const { speakers } = useContext(EventContext);
+  const [selectedSpeakerId, setSelectedSpeakerId] = useState("");
   console.log(speakers);
 
   const location = useLocation();
   const data = location.state;
+  const eventSpeakers = data.event.speakers;
+  console.log(eventSpeakers);
   console.log(data);
   const eventId = data.event.id;
   console.log(eventId);
+
+  const navigate = useNavigate();
+
+  const handleSelectChange = (e) => {
+    setSelectedSpeakerId(e.target.value);
+  };
+  const selectedSpeakerIdNumber = parseInt(selectedSpeakerId, 10);
+  const selectedSpeaker = speakers.find(
+    (speaker) => speaker.id === selectedSpeakerIdNumber
+  );
+  console.log(selectedSpeaker);
+
+  const handleSelectSubmit = async (e) => {
+    e.preventDefault();
+
+    const speakerdata = {
+      event: eventId,
+      fullname: selectedSpeaker.fullname,
+      organization: selectedSpeaker.organization,
+      role: selectedSpeaker.role,
+    };
+
+    const handleSuccess = (speaker_registered) => {
+      navigate("/events");
+    };
+    const handleError = () => {
+      alert("register failed");
+    };
+
+    registerSpeaker(speakerdata, handleSuccess, handleError);
+
+    // if (selectedSpeakerId) {
+    //   alert(`Selected Speaker ID: ${selectedSpeakerId}`);
+    //   // Perform your desired action with the selected speaker ID here
+    // } else {
+    //   alert("Please select a speaker.");
+    // }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +71,7 @@ const EventSpeaker = () => {
       setFullname("");
       setOrganization("");
       setRole("");
+      navigate("/events");
     };
     const handleError = () => {
       alert("register failed");
@@ -51,7 +93,7 @@ const EventSpeaker = () => {
           </tr>
         </thead>
         <tbody>
-          {speakers?.map((speaker) => (
+          {eventSpeakers?.map((speaker) => (
             <tr key={speaker.id}>
               <th scope="row">{speaker.id}</th>
               <td>{speaker.fullname}</td>
@@ -77,12 +119,158 @@ const EventSpeaker = () => {
         type="button"
         className="btn btn-success fw-bold"
         data-bs-toggle="modal"
-        data-bs-target="#addSpeaker"
+        data-bs-target="#exampleModalToggle"
       >
         <i className="bi bi-plus-circle" /> Add Speaker
       </button>
-
       <div
+        class="modal fade"
+        id="exampleModalToggle"
+        aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalToggleLabel">
+                Add Speaker
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                value={selectedSpeakerId}
+                onChange={handleSelectChange}
+              >
+                <option value="" disabled>
+                  Choose Speaker
+                </option>
+                {speakers.map((speaker, index) => (
+                  <option key={index} value={speaker.id}>
+                    {speaker.fullname}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="modal-footer d-flex justify-content-between">
+              <button
+                className="btn btn-success"
+                data-bs-target="#exampleModalToggle2"
+                data-bs-toggle="modal"
+              >
+                <i className="bi bi-plus-circle" /> Add New
+              </button>
+              <button
+                className="btn btn-primary"
+                data-bs-dismiss="modal"
+                onClick={handleSelectSubmit}
+              >
+                Add Speaker
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade"
+        id="exampleModalToggle2"
+        aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel2"
+        tabindex="-1"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalToggleLabel2">
+                Modal 2
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div className="container text-white">
+                <form>
+                  <div className="mb-3">
+                    <label htmlFor="fullname" className="form-label">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="fullname"
+                      name="fullname"
+                      value={fullname}
+                      onChange={(e) => setFullname(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="organization" className="form-label">
+                      Organization
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="organization"
+                      name="organization"
+                      value={organization}
+                      onChange={(e) => setOrganization(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="role" className="form-label">
+                      Role
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="role"
+                      name="role"
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="modal-footer d-flex justify-content-between">
+                    <button
+                      className="btn btn-success"
+                      data-bs-target="#exampleModalToggle"
+                      data-bs-toggle="modal"
+                    >
+                      Back
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      data-bs-dismiss="modal"
+                      onClick={(e) => {
+                        e.preventDefault(); // Prevent default button click behavior
+                        handleSubmit();
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <div
         className="modal fade"
         id="addSpeaker"
         tabindex="-1"
@@ -155,7 +343,11 @@ const EventSpeaker = () => {
                     >
                       Close
                     </button>
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      data-bs-dismiss="modal"
+                    >
                       Add Speaker
                     </button>
                   </div>
@@ -164,7 +356,7 @@ const EventSpeaker = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
