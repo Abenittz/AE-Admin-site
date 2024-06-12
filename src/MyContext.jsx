@@ -54,7 +54,7 @@ const EventProvider = ({ children }) => {
   }, []);
 
   const fetchSpeakers = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/speakers/");
+    const res = await fetch("http://aeevents.pythonanywhere.com/speakers/");
     if (!res.ok) {
       throw new Error("Failed to fetch speakers");
     }
@@ -62,7 +62,7 @@ const EventProvider = ({ children }) => {
   };
 
   const fetchSponsors = async () => {
-    const res = await fetch("http://127.0.0.1:8000/api/sponsors/");
+    const res = await fetch("http://aeevents.pythonanywhere.com/sponsors/");
     if (!res.ok) {
       throw new Error("Failed to fetch sponsors");
     }
@@ -70,7 +70,7 @@ const EventProvider = ({ children }) => {
   };
 
   const fetchAttendees = async () => {
-    const res = await fetch(" http://127.0.0.1:8000/api/attendees/");
+    const res = await fetch(" http://aeevents.pythonanywhere.com/attendees/");
     if (!res.ok) {
       throw new Error("Failed to fetch attendees");
     }
@@ -78,7 +78,7 @@ const EventProvider = ({ children }) => {
   };
 
   const fetchEvents = async () => {
-    const res = await fetch(" http://127.0.0.1:8000/api/events/");
+    const res = await fetch(" http://aeevents.pythonanywhere.com/events/");
     if (!res.ok) {
       throw new Error("Failed to fetch events");
     }
@@ -86,7 +86,7 @@ const EventProvider = ({ children }) => {
   };
 
   const fetchEventusers = async () => {
-    const res = await fetch(" http://127.0.0.1:8000/api/eventusers/");
+    const res = await fetch(" http://aeevents.pythonanywhere.com/eventusers/");
     if (!res.ok) {
       throw new Error("Failed to fetch users");
     }
@@ -95,7 +95,7 @@ const EventProvider = ({ children }) => {
 
   const addSpeaker = async (speakerData, onSuccess, onError) => {
     try {
-      const res = await fetch(" http://127.0.0.1:8000/api/speakers/", {
+      const res = await fetch(" http://aeevents.pythonanywhere.com/speakers/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const EventProvider = ({ children }) => {
   };
   const addSponsor = async (sponsorData, onSuccess, onError) => {
     try {
-      const res = await fetch(" http://127.0.0.1:8000/api/sponsors/", {
+      const res = await fetch(" http://aeevents.pythonanywhere.com/sponsors/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,14 +146,14 @@ const EventProvider = ({ children }) => {
   // };
 
   // const getEvent = async (eventId) => {
-  //   const res = await fetch(`http://10.240.68.67:8000/api/event/${eventId}`);
+  //   const res = await fetch(`http://10.240.68.67:8000http://aeevents.pythonanywhere.com/event/${eventId}`);
   //   const data = await res.json();
   //   return data.data;
   // };
 
   const createEvent = async (newEventData, onSuccess, onError) => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/events/", {
+      const res = await fetch("http://aeevents.pythonanywhere.com/events/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -175,13 +175,16 @@ const EventProvider = ({ children }) => {
 
   const editEvent = async (eventId, updatedEventData, onSuccess, onError) => {
     try {
-      const res = await fetch(` http://127.0.0.1:8000/api/events/${eventId}/`, {
-        method: "PUT", // Use PUT or PATCH method for editing
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedEventData),
-      });
+      const res = await fetch(
+        ` http://aeevents.pythonanywhere.com/events/${eventId}/`,
+        {
+          method: "PUT", // Use PUT or PATCH method for editing
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedEventData),
+        }
+      );
 
       if (res.status === 200) {
         const updatedEvent = await res.json();
@@ -203,7 +206,7 @@ const EventProvider = ({ children }) => {
     try {
       // Fetch the current user data
       const response = await fetch(
-        ` http://127.0.0.1:8000/api/eventusers/${userId}/`
+        ` http://aeevents.pythonanywhere.com/eventusers/${userId}/`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
@@ -215,7 +218,7 @@ const EventProvider = ({ children }) => {
 
       // Update the user with the new is_staff value and include other fields
       const updateResponse = await fetch(
-        ` http://127.0.0.1:8000/api/eventusers/${userId}/`,
+        ` http://aeevents.pythonanywhere.com/eventusers/${userId}/`,
         {
           method: "PUT",
           headers: {
@@ -246,7 +249,7 @@ const EventProvider = ({ children }) => {
   const deleteEvent = async (eventId, onSuccess, onError) => {
     try {
       const response = await fetch(
-        ` http://127.0.0.1:8000/api/events/${eventId}/`,
+        ` http://aeevents.pythonanywhere.com/events/${eventId}/`,
         {
           method: "DELETE",
         }
@@ -275,13 +278,16 @@ const EventProvider = ({ children }) => {
 
   const loginUser = async (userData, onSuccess, onError) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        "http://aeevents.pythonanywhere.com/login/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -312,7 +318,7 @@ const EventProvider = ({ children }) => {
   const registerAttendee = async (attendeeData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        " http://127.0.0.1:8000/api/attendee/register/",
+        " http://aeevents.pythonanywhere.com/attendee/register/",
         {
           method: "POST",
           headers: {
@@ -337,7 +343,7 @@ const EventProvider = ({ children }) => {
   const registerSpeaker = async (speakerData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        " http://127.0.0.1:8000/api/speaker/register/",
+        " http://aeevents.pythonanywhere.com/speaker/register/",
         {
           method: "POST",
           headers: {
@@ -363,7 +369,7 @@ const EventProvider = ({ children }) => {
   const registerSponsor = async (sponsorData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        " http://127.0.0.1:8000/api/sponsor/register/",
+        " http://aeevents.pythonanywhere.com/sponsor/register/",
         {
           method: "POST",
           headers: {
@@ -388,7 +394,7 @@ const EventProvider = ({ children }) => {
   const registerSchedule = async (scheduleData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        " http://127.0.0.1:8000/api/schedule/register/",
+        " http://aeevents.pythonanywhere.com/schedule/register/",
         {
           method: "POST",
           headers: {
@@ -413,7 +419,7 @@ const EventProvider = ({ children }) => {
   const registerRoomid = async (roomData, onSuccess, onError) => {
     try {
       const response = await fetch(
-        " http://127.0.0.1:8000/api/roomId/register/",
+        " http://aeevents.pythonanywhere.com/roomId/register/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -435,13 +441,16 @@ const EventProvider = ({ children }) => {
 
   const updateUserIsStaffById = async (userId, isStaff) => {
     try {
-      const response = await fetch(`/api/users/${userId}/`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ is_staff: isStaff }),
-      });
+      const response = await fetch(
+        `http://aeevents.pythonanywhere.com/users/${userId}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ is_staff: isStaff }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update user is_staff status");

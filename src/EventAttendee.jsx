@@ -11,7 +11,7 @@ const EventAttendee = () => {
   //   try {
   //     // Get the event ID
   //     const response = await fetch(
-  //       `http://127.0.0.1:8000api/download-attendees-pdf/${eventId}/`,
+  //       `api/download-attendees-pdf/${eventId}/`,
   //       {
   //         method: "GET",
   //         headers: {
@@ -72,7 +72,7 @@ const EventAttendee = () => {
         </Link>
         <a
           className="btn btn-warning"
-          href={`http://127.0.0.1:8000api/download-attendees-pdf/${eventId}/`}
+          href={`api/download-attendees-pdf/${eventId}/`}
         >
           Import/Download (pdf)
         </a>

@@ -85,7 +85,7 @@ const useScreenRecorder = ({ options, audio = false }) => {
     const formData = new FormData();
     formData.append("video", blob, "recorded-video.webm");
 
-    fetch("http://localhost:8000/api/videos/upload", {
+    fetch("http://aeevents.pythonanywhere.com/videos/upload", {
       method: "POST",
       body: formData,
     })
